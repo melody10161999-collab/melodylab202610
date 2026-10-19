@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>妍究所 ｜ MELODY LAB</title>
+
+    <!-- Google Fonts: 經典日系襯線字體與雅致英文體 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Noto+Serif+JP:wght@300;400;600&family=Noto+Serif+TC:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ==========================================
+       1. 全域變數與 CSS Reset (日系極簡調色盤)
+       ========================================== */
+        :root {
+            --bg-color: #f0e9db;
+            /* 暖米白背景 (Kinari) */
+            --card-bg: #bbc6e9;
+            /* 純白卡片 */
+            --text-main: #2c2c2c;
+            /* 墨色文字 (Sumi) */
+            --text-sub: #666666;
+            /* 鼠色次要文字 */
+            --accent-pink: #d8a3a8;
+            /* 櫻色點綴 (Sakura) */
+            --accent-green: #7d8c69;
+            /* 抹茶綠 (Matcha) */
+            --accent-blue: #3b4856;
+            /* 藍靛色 (Ai) */
+            --border-color: #e6e2dc;
+            /* 柔和邊框 */
+
+            --font-jp: 'Noto Serif JP', 'Noto Serif TC', serif;
+            --font-en: 'Cinzel', serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-jp);
+            line-height: 1.8;
+            letter-spacing: 0.08em;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .banner {
+            width: 100%;
+            /* max-width: 1800px; */
+        }
+
+        .banner img {
+            width: 100%;
+            /* max-width: 1800px; */
+            /* margin: 60px auto; */
+            /* border: 1px solid red; */
+        }
+
+
+        .logo {
+            width: 120%;
+            max-width: 1800px;
+            /* margin: 60px auto; */
+        }
+
+        /* ==========================================
+       2. 導覽列 (Navigation)
+       ========================================== */
+        header {
+            padding: 2.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .logo {
+            font-family: var(--font-en);
+            font-size: 1.4rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            color: var(--accent-blue);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            font-size: 0.95rem;
+            position: relative;
+            padding-bottom: 4px;
+            color: var(--text-sub);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-pink);
+            transition: width 0.3s ease;
+        }
+
+        nav a.active,
+        nav a:hover {
+            color: var(--text-main);
+        }
+
+        nav a.active::after,
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* ==========================================
+       3. 主要內容區域與分頁切換 (Pages)
+       ========================================== */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .page {
+            display: none;
+            /* 預設隱藏所有頁面 */
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .page.active {
+            display: block;
+            /* 僅顯示當前頁面 */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 通用標題樣式 */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title span {
+            display: block;
+            font-family: var(--font-en);
+            font-size: 0.8rem;
+            color: var(--accent-green);
+            letter-spacing: 0.2em;
+            margin-top: 0.3rem;
+        }
+
+        /* ==========================================
+       頁面 1：關於我 (About)
+       ========================================== */
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3.5rem;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .profile-image-wrap {
+            position: relative;
+        }
+
+        .profile-image-wrap::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--accent-pink);
+            z-index: 0;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            position: relative;
+            z-index: 1;
+            filter: grayscale(15%);
+        }
+
+        .about-text {
+            position: relative;
+        }
+
+        .vertical-title {
+            writing-mode: vertical-rl;
+            font-size: 1.2rem;
+            letter-spacing: 0.3em;
+            color: var(--accent-blue);
+            position: absolute;
+            right: -2.5rem;
+            top: 0;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        .about-text h2 {
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            color: var(--text-sub);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            text-align: justify;
+        }
+
+        .quote-box {
+            border-left: 2px solid var(--accent-green);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: var(--text-main);
+        }
+
+        /* ==========================================
+       頁面 2：作品集 (Works)
+       ========================================== */
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .work-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .work-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .work-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+
+        .work-tag {
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            font-family: var(--font-en);
+            letter-spacing: 0.1em;
+        }
+
+        .work-title {
+            font-size: 1.1rem;
+            margin: 0.3rem 0 0.5rem 0;
+            font-weight: 400;
+        }
+
+        .work-desc {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        /* ==========================================
+       頁面 3：聯絡我 (Contact - 個人資訊卡片)
+       ========================================== */
+        .contact-wrapper {
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 3rem 2.5rem;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            text-align: center;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 1px dashed var(--border-color);
+            pointer-events: none;
+        }
+
+        .contact-intro {
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            margin-bottom: 2.5rem;
+            line-height: 2;
+        }
+
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+            text-align: left;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f0ede8;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .info-label {
+            font-family: var(--font-en);
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            letter-spacing: 0.15em;
+            min-width: 70px;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            color: var(--text-main);
+            font-weight: 400;
+            letter-spacing: 0.05em;
+        }
+
+        .info-value a:hover {
+            color: var(--accent-pink);
+        }
+
+        /* ==========================================
+       4. 頁尾 (Footer)
+       ========================================== */
+        footer {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            font-family: var(--font-en);
+            letter-spacing: 0.1em;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        /* ==========================================
+       5. 響應式設計 (RWD 針對手機優化)
+       ========================================== */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .vertical-title {
+                display: none;
+            }
+
+            .contact-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 導覽列 -->
+    <header>
+        <!-- <div class="logo">My Portfolio.</div> -->
+        <div class="logo">
+            <img src="./photo/logo.png" alt="">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#page-about" class="nav-link active" onclick="switchPage('about')">關於我</a></li>
+                <li><a href="#page-works" class="nav-link" onclick="switchPage('works')">作品集</a></li>
+                <li><a href="#page-contact" class="nav-link" onclick="switchPage('contact')">聯絡我</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Banner 放這裡 -->
+    <section class="banner">
+        <img src="./photo/YT-BANNER.jpg" alt="妍究所網站 Banner">
+    </section>
+
+    <!-- 主要內容區 -->
+    <main>
+
+
+        <!-- 頁面 1：關於我 -->
+        <section id="page-about" class="page active">
+            <h1 class="section-title">自我介紹<span>PROFILE</span></h1>
+
+
+
+            <div class="about-container">
+                <div class="profile-image-wrap">
+                    <img src="./photo/baby.jpg" alt="個人照" class="profile-img">
+                </div>
+
+                <div class="about-text">
+                    <div class="vertical-title">妍究所</div>
+                    <h2>HI，我是小妍。</h2>
+                    <p class="quote-box">「努力探索自己的腦袋。」</p>
+                    <P>一個喜歡把日常，變成作品的人。</P>
+                    <p>從教育走進設計，從生活走進創作。</p>
+
+                    <P>這裡收藏著我的奇思妙想，</P>
+                    <p>也收藏著那些正在發芽的故事。</p>
+                    <p>無論是視覺企劃、文字創作或是數位內容編排，我都希望能透過細膩的質感與澄澈的思維，為使用者傳遞最真實且動人的體驗。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 頁面 2：作品集 -->
+        <section id="page-works" class="page">
+            <h1 class="section-title">精選作品<span>PORTFOLIO</span></h1>
+
+            <div class="works-grid">
+                <!-- 作品 1 -->
+                <article class="work-card">
+                    <img src="./photo/宜蘭湖畔寶寶旅行日記.png" alt="作品圖" class="work-img">
+                    <span class="work-tag">BRANDING / DESIGN</span>
+                    <h3 class="work-title">小桃嗷嗷待哺日常</h3>
+                    <p class="work-desc">一步一步陪伴小桃長大，以小桃的角度，去探索這個世界。</p>
+                </article>
+
+                <!-- 作品 2 -->
+                <article class="work-card">
+                    <a href="https://www.youtube.com/watch?v=iNdKtsj9hbs&t=11s">
+                        <img src="./photo/釜山天空下的繽紛旅伴自拍.png" alt="作品圖" class="work-img">
+                        <span class="work-tag">CONTENT / CREATIVE</span>
+                        <h3 class="work-title">日常點滴VLOG</h3>
+                        <p class="work-desc">晉升為媽媽，但還是保有自己的快樂圈。</p>
+                    </a>
+                </article>
+
+                <!-- 作品 3 -->
+                <article class="work-card">
+                    <a href="https://www.instagram.com/yanely_0830?dlrf=MWoxYzd0aW56eDJ6dQ%3D%3D&utm_source=qr">
+                        <img src="./photo/咪咪多多的歡樂新同學日常.png" alt="作品圖" class="work-img">
+                        <span class="work-tag">WEB / UI DESIGN</span>
+                        <h3 class="work-title">兒童原創IP卡通</h3>
+                        <p class="work-desc">運用AI創作兒童IP卡通，那些孩子說不出口的話，咪咪來說~。</p>
+                    </a>
+                </article>
+
+                <!-- 作品 4 -->
+                <article class="work-card">
+                    <a href="https://www.youtube.com/watch?v=UYVx1_4HY2c">
+                        <img src="./photo/按下倒帶，重溫創作時光09.png" alt="作品圖" class="work-img">
+                        <span class="work-tag">WEB / UI DESIGN</span>
+                        <h3 class="work-title">妍之有物</h3>
+                        <p class="work-desc">收藏了一些我的奇思妙想，還有那些正在發芽的小快樂。</P>
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- 頁面 3：聯絡我 (個人資訊卡片) -->
+        <section id="page-contact" class="page">
+            <h1 class="section-title">聯絡資訊<span>CONTACT</span></h1>
+
+            <div class="contact-wrapper">
+                <div class="contact-card">
+                    <p class="contact-intro">感謝您的蒞臨。如果您有任何合作意向、專案諮詢或想進一步交流，歡迎隨時透過以下方式與我聯繫。</p>
+
+                    <div class="info-list">
+                        <!-- 姓名 -->
+                        <div class="info-item">
+                            <span class="info-label">Name</span>
+                            <span class="info-value">林小姐</span>
+                        </div>
+
+                        <!-- 電話 -->
+                        <div class="info-item">
+                            <span class="info-label">Phone</span>
+                            <span class="info-value">
+                                <a href="tel:0917836547">0917-836-547</a>
+                            </span>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="info-item">
+                            <span class="info-label">Email</span>
+                            <span class="info-value">
+                                <a href="mailto:melody10161999@gmail.com">melody10161999@gmail.com</a>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="ig-qr">
+                        <h3>Follow my Instagram</h3>
+                        <p>歡迎追蹤我的 IG ♡</p>
+
+                        <a href="https://www.instagram.com/yanely_0830?dlrf=MWoxYzd0aW56eDJ6dQ%3D%3D&utm_source=qr"
+                            target="_blank" rel="noopener noreferrer">
+
+                            <img src="./photo/ig qrcode.png" alt="Instagram QR Code">
+
+                        </a>
+
+                        <p>SCAN TO FOLLOW ME</p>
+                    </div>
+            </div>
+        </section>
+
+        <!-- Instagram QR Code -->
+
+
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>&copy; 2026 MIN-YEN LIN. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <!-- 分頁切換 JavaScript (極簡原生腳本) -->
+    <script>
+        function switchPage(pageId) {
+            // 隱藏所有頁面
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // 移除所有導覽連結的 active 樣式
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            // 顯示目標頁面
+            const targetPage = document.getElementById('page-' + pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // 設定當前選取的導覽連結 active 樣式
+            event.currentTarget.classList.add('active');
+
+            // 捲動至頂部
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    </script>
+</body>
+
+</html>
